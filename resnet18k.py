@@ -1,5 +1,6 @@
 ## ResNet18 for CIFAR
 ## Based on: https://github.com/kuangliu/pytorch-cifar/blob/master/models/preact_resnet.py
+##Taken from the deep double descent repository git@gitlab.com:harvard-machine-learning/double-descent.git
 
 import torch.nn as nn
 import torch.nn.functional as F
