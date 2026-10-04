@@ -1,0 +1,33 @@
+
+TRANSFORMER
+From their paper:
+
+"We consider the encoder-decoder Transformer model from Vaswani et al. (2017)
+with 6 layers and 8 attention heads per layer, as implemented by fairseq Ott et al. (2019). We scale
+the size of the network by modifying the embedding dimension (dmodel), and scale the width of the
+fully-connected layers proportionally (dff = 4dmodel). We train with 10% label smoothing and no
+drop-out, for 80,000 gradient steps."
+
+
+Experiment1 Settings:
+-Ablation über unterschiedliche train sample Größen wählen (Spalte "n" aus den .csv)
+-Adam optimizer mit default PyTorch values (noch herausfinden, ob damals pytorch default values anders waren)
+-Learning rate des optimizers: "For training transformers, we replicate the optimization procedure specified in Vaswani et al. (2017)
+section 5.3, where the learning rate schedule consists of a “warmup” phase with linearly increasing
+learning rate followed by a phase with inverse square-root decay."
+-"We preprocess the data using byte
+pair encoding (BPE) as described in Sennrich et al. (2015)."
+-Default layer initialization as provided by pytorch (at that time)
+-No droput
+-10% label smoothing
+-80,000 gradient steps
+-Trainingset: IWSLT‘14 de-en (varying amounts of samples. One sample conists of one de-en sentence pair.)
+-Crossentropy loss
+
+Dieses experiment jeweils für die Model-specifications
+-Transformergröße d_embedding=80
+-Transformergröße d_embedding=64
+
+Fairseq specs:
+https://github.com/facebookresearch/fairseq/tree/main/examples/translation
+

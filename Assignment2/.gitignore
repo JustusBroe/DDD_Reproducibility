@@ -1,0 +1,16 @@
+# Created by fig11b/ scripts (large or regenerable)
+/miniforge3/
+/envs/
+/fairseq-repo/
+/fairseq_commit.txt
+/data/
+/data-bin/
+/checkpoints/
+/logs/
+
+# Keep the summary results, not the per-run files
+/results/*.json
+
+__pycache__/
+*.pyc
+.DS_Store
