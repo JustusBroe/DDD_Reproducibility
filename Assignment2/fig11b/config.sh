@@ -16,10 +16,10 @@ CKPT_DIR="$PROJECT_ROOT/checkpoints"
 LOG_DIR="$PROJECT_ROOT/logs"
 RESULT_DIR="$PROJECT_ROOT/results"
 
-# PyTorch build. 2.4.1/cu121 covers V100/A100/H100/L40S.
-# Blackwell GPUs (B200, RTX 50xx) need e.g. TORCH_VERSION=2.7.1 TORCH_CUDA=cu128.
-TORCH_VERSION="${TORCH_VERSION:-2.4.1}"
-TORCH_CUDA="${TORCH_CUDA:-cu121}"
+# PyTorch build. 2.7.1/cu128 is needed for Blackwell GPUs (UCloud B200 / B200 MIG)
+# and also covers A100/H100.
+TORCH_VERSION="${TORCH_VERSION:-2.7.1}"
+TORCH_CUDA="${TORCH_CUDA:-cu128}"
 
 # Grid (identical to the authors' CSVs)
 SIZES="${SIZES:-64 80}"
