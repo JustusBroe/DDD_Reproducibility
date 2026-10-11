@@ -1,0 +1,34 @@
+Experiment: 
+
+
+CNN with architecture specified in CNN.py 
+3 different sample set sizes: 12500, 25000, 50000
+Width parameter "c" ranging from 1 to 80. From 1-40, increase the width by one from 40 to 80 by two. 
+From thier paper: "We consider a simple family of 5-layer CNNs, with four Conv-BatchNorm-
+ReLU-MaxPool layers and a fully-connected output layer. We scale the four convolutional layer
+widths as [k,2k,4k,8k]. The MaxPool is [1, 2, 2, 8]. For all the convolution layers, the kernel
+size = 3, stride = 1 and padding=1. This architecture is based on the “backbone” architecture from
+Page (2018). For k= 64, this CNN has 1558026 parameters and can reach >90% test accuracy on
+CIFAR-10 (Krizhevsky (2009)) with data-augmentation."
+
+Dataset: subsampled CIFAR10 with 10% noise, data augmentation, 
+Dataaugmentation: "For Data augmentation, we apply
+RandomCrop(32, padding=4) and RandomHorizontalFlip. In experiments with
+added label noise, the label for all augmentations of a given training sample are given the same
+label."
+Optimizer: SGD, learning rate schedule inverse-square root (defined be-
+low) was used with initial learning rate γ0 = 0.1 and updates every L= 512 gradient steps.
+No momentum was used. 
+
+Inverse square root learning rate spceification: "At gradient step t, the learning rate is set to γ(t) :=
+γ0
+√1+⌊t/512⌋. We set learning-rate with respect to number of gradient steps, and not epochs,
+in order to allow comparison between experiments with varying train-set sizes."
+
+Regularization: No explicit regularization like weight decay or dropout was applied
+
+Batchsize is fixed at 128
+
+
+Optimization:
+Initialization: We use the default initialization provided by PyTorch for all the layers.
