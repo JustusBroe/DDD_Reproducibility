@@ -1,0 +1,23 @@
+# One train.py run per line (blank lines and # comments are ignored).
+# ${ADAM_EPOCHS} / ${SGD_EPOCHS} are filled in by run_epochwise.sh.
+# Longest runs first so the queue finishes as early as possible.
+
+# Fig. 2 / 9 + Fig. 10a: ResNet18 on CIFAR-10, Adam lr 1e-4, data augmentation
+--k 64 --noise 0.2 --epochs ${ADAM_EPOCHS}
+--k 64 --noise 0.1 --epochs ${ADAM_EPOCHS}
+--k 64 --noise 0.0 --epochs ${ADAM_EPOCHS}
+
+# Fig. 10c: 5-layer CNN (k=128) on CIFAR-10, SGD lr 0.1/sqrt(1+t/512), 500K steps
+--arch mcnn --optimizer sgd --k 128 --noise 0.2 --epochs ${SGD_EPOCHS}
+--arch mcnn --optimizer sgd --k 128 --noise 0.1 --epochs ${SGD_EPOCHS}
+--arch mcnn --optimizer sgd --k 128 --noise 0.0 --epochs ${SGD_EPOCHS}
+
+# Fig. 10b: ResNet18 on CIFAR-100
+--dataset cifar100 --k 64 --noise 0.2 --epochs ${ADAM_EPOCHS}
+--dataset cifar100 --k 64 --noise 0.1 --epochs ${ADAM_EPOCHS}
+--dataset cifar100 --k 64 --noise 0.0 --epochs ${ADAM_EPOCHS}
+
+# Fig. 2 / 9: the large / medium / small regimes at 20 % noise (k=64 is above)
+--k 32 --noise 0.2 --epochs ${ADAM_EPOCHS}
+--k 12 --noise 0.2 --epochs ${ADAM_EPOCHS}
+--k 4 --noise 0.2 --epochs ${ADAM_EPOCHS}
