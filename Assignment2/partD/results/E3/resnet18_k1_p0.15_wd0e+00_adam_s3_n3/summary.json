@@ -1,0 +1,22 @@
+{
+ "arch": "resnet18",
+ "k": 1,
+ "noise": 0.15,
+ "noise_seed": 3,
+ "seed": 3,
+ "wd": 0.0,
+ "opt": "adam",
+ "lr": 0.0001,
+ "lr_sched": "const",
+ "epochs_done": 500,
+ "steps": 195500,
+ "params": 2947,
+ "noise_rate_actual": 0.15313999354839325,
+ "test_loss": 1.4217630126953125,
+ "test_err": 0.4981,
+ "train_time_s": 1183.7,
+ "diverged": false,
+ "train_err_full": 0.5605199933052063,
+ "noisy_fit": 0.056810762733221054,
+ "clean_err": 0.4913208782672882
+}

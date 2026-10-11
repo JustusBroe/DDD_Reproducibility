@@ -1,0 +1,22 @@
+{
+ "arch": "cnn5",
+ "k": 24,
+ "noise": 0.1,
+ "noise_seed": 0,
+ "seed": 1,
+ "wd": 0.0,
+ "opt": "sgd",
+ "lr": 0.1,
+ "lr_sched": "invsqrt",
+ "epochs_done": 1280,
+ "steps": 500480,
+ "params": 221386,
+ "noise_rate_actual": 0.1019199937582016,
+ "test_loss": 0.9654256530761719,
+ "test_err": 0.2574,
+ "train_time_s": 4041.5,
+ "diverged": false,
+ "train_err_full": 0.06911999732255936,
+ "noisy_fit": 0.6797488331794739,
+ "clean_err": 0.04061998799443245
+}
