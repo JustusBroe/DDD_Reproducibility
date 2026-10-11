@@ -1,4 +1,4 @@
-# Regenerable or large files (see README.md); test logits are kept only for the E3 ensembles.
+# Regenerable or large files; test logits are kept only for the E3 ensembles.
 data/
 authors_data/
 __pycache__/
