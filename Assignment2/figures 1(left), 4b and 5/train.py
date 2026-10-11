@@ -1,15 +1,4 @@
-"""Training loop for width-swept CNN / ResNet18 (Nakkiran et al., 2021, App. B.2).
 
-Two optimizer modes, both batch size 128, no weight decay, default PyTorch init:
-  sgd : plain SGD (no momentum), lr(t) = 0.1 / sqrt(1 + floor(t / 512)) per gradient step
-  adam: Adam, constant lr 1e-4
-Training length is counted in gradient steps (for Adam: epochs * steps_per_epoch).
-
-Long runs can be checkpointed (ckpt_dir + ckpt_every): every `ckpt_every` epochs the model, optimizer,
-step counter, training curve and random-number state are written to <ckpt_dir>/<tag>.ckpt (atomic
-write). If a run is killed (preemption, node failure) and started again with the same arguments, it
-resumes from the last checkpoint instead of step 0. The checkpoint is deleted when the run finishes.
-"""
 import math
 import os
 import time
@@ -43,7 +32,6 @@ def sgd_lr(t, lr0=0.1, L=512):
 
 @torch.no_grad()
 def evaluate(model, x, y, bs=1000):
-    """Returns (error, mean cross-entropy) in eval mode (BN uses running stats)."""
     model.eval()
     wrong, loss = 0, 0.0
     for i in range(0, len(x), bs):
@@ -55,18 +43,15 @@ def evaluate(model, x, y, bs=1000):
 
 
 def eval_steps(total, n_points=30):
-    """Log-spaced evaluation steps (always includes the final step)."""
     pts = np.unique(np.round(np.geomspace(50, total, n_points)).astype(int))
     return set(pts.tolist()) | {total}
 
 
 def run_tag(arch, opt, total_steps, aug, noise, k, seed):
-    """Unique name of one run; used for saved models and checkpoints."""
     return f"{arch}_{opt}_s{total_steps}_aug{int(aug)}_p{noise}_k{k}_seed{seed}"
 
 
 def _save_ckpt(path, model, optim, step, curve, elapsed, device):
-    """Atomic write: a run killed in the middle of saving leaves the previous checkpoint intact."""
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
     state = dict(
         model=model.state_dict(), optim=optim.state_dict(), step=step, curve=curve, elapsed=elapsed,
@@ -81,17 +66,7 @@ def _save_ckpt(path, model, optim, step, curve, elapsed, device):
 def train_run(arch, k, noise, aug, seed, opt, total_steps, data, device,
               n_eval=30, log=None, save_dir=None, ckpt_dir=None, ckpt_every=0, crash_at=None,
               noise_seed=None):
-    """Train one model and return (final_metrics_dict, curve_list).
-
-    `seed` sets the network initialisation and the data order; `noise_seed` sets which training labels
-    are corrupted (None = same as `seed`). Passing a fixed noise_seed makes trials differ only in their
-    random initialisation, as in the paper's Fig. 1 ("five trials, with random network initialization").
-
-    If `save_dir` is given, the final weights (<tag>.pt, a state_dict) and the model's outputs on the
-    clean test set (<tag>_test_logits.pt, shape [10000, C]) are saved there before returning.
-    If `ckpt_dir` and `ckpt_every` (epochs) are given, the run is checkpointed and resumes automatically.
-    `crash_at` (a step number) hard-kills the process at that step; it exists only for test_resume.py.
-    """
+    
     xtr, ytr, xte, yte, C = data
     torch.manual_seed(seed)
     y_noisy = add_label_noise(ytr, noise, seed if noise_seed is None else noise_seed, C)   # fixed once
@@ -172,7 +147,6 @@ def train_run(arch, k, noise, aug, seed, opt, total_steps, data, device,
 
 
 def benchmark(arch="cnn", ks=(4, 16, 32), steps=200, aug=False, fake=False, data_root="./data"):
-    """Time `steps` SGD steps for a few widths to size the sweep budget."""
     device = get_device()
     data = load_cifar("cifar10", data_root, device=device, fake=fake)
     print(f"device: {device}")
