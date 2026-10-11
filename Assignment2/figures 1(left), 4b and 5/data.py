@@ -1,5 +1,4 @@
-"""CIFAR data, fixed-seed label noise and batched GPU augmentation.
-"""
+
 import numpy as np
 import torch
 import os
@@ -48,12 +47,7 @@ def _load_cifar10_pickles(folder):
 
 
 def load_cifar(name="cifar10", root="./data", device=None, fake=False, n_fake=2000):
-    """Returns (x_train, y_train, x_test, y_test, num_classes), all on `device`.
 
-    CIFAR-10 is read from a local `cifar-10-batches-py/` folder under `root` if present
-    (no download, no torchvision needed); otherwise torchvision downloads it into `root`.
-    `fake=True` gives random data of the right shape (used for offline tests only).
-    """
     device = device or get_device()
     num_classes = 10 if name == "cifar10" else 100
     if fake:
@@ -77,11 +71,7 @@ def load_cifar(name="cifar10", root="./data", device=None, fake=False, n_fake=20
 
 
 def add_label_noise(y, p, seed, num_classes):
-    """Replace a fraction p of labels by a uniformly random different class.
-
-    Exactly round(p * n) samples are corrupted; the new label is
-    (y + U{1..C-1}) mod C, so it is uniform over the C-1 wrong classes.
-    """
+   
     if p <= 0:
         return y.clone()
     rng = np.random.RandomState(seed)
@@ -94,10 +84,7 @@ def add_label_noise(y, p, seed, num_classes):
 
 
 def make_augmenter(device, pad=4):
-    """RandomCrop(32, padding=4) + RandomHorizontalFlip, on a batch, on-device.
-
-    Padding uses black pixels (value 0 before normalization), as torchvision does.
-    """
+    
     mean = torch.tensor(MEAN, device=device).view(1, 3, 1, 1)
     std = torch.tensor(STD, device=device).view(1, 3, 1, 1)
     pad_val = (0.0 - mean) / std
