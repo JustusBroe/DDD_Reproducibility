@@ -1,0 +1,8 @@
+# Regenerable or large files (see README.md); test logits are kept only for the E3 ensembles.
+data/
+authors_data/
+__pycache__/
+results/logs/
+results/**/ckpt.pt*
+results/*/*/test_logits.npz
+!results/E3/*/test_logits.npz
